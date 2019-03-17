@@ -8,11 +8,10 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-//    QApplication a(argc, argv);
-//    HamingTables w;
-//    w.show();
-
-//    return a.exec();
+    QApplication a(argc, argv);
+    HamingTables w;
+    w.show();
+    return a.exec();
 
     ListaSimple lista;
     ListaSimple lista1;
