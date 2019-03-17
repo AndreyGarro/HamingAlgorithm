@@ -26,12 +26,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         hamingtables.cpp \
-    algorithm.cpp
+    algorithm.cpp \
+    addnumber.cpp
 
 HEADERS += \
         hamingtables.h \
     listasimple.h \
-    algorithm.h
+    algorithm.h \
+    addnumber.h
 
 FORMS += \
-        hamingtables.ui
+        hamingtables.ui \
+    addnumber.ui
