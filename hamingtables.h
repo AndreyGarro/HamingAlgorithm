@@ -27,8 +27,8 @@ private:
     void p3(ListaSimple);
     void p4(ListaSimple);
     int BinDEC(ListaSimple);
-    int BinBCD(ListaSimple);
-    char* Binario(ListaSimple);
+    int BinBCD(int decimal);
+    int BinHex(int);
 
 };
 

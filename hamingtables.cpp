@@ -3,10 +3,10 @@
 #include "addnumber.h"
 #include "iostream"
 #include <string>
-#include <sstream>
 #include <math.h>
-
 #include <cstdlib>
+
+#include "algorithm.h"
 
 using namespace std;
 
@@ -27,6 +27,7 @@ HamingTables::HamingTables(QWidget *parent) :
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->tableWidget->setEditTriggers( QAbstractItemView::NoEditTriggers );
+
     ///// Tabla 2
     ui->tableWidget_2->setColumnCount(18);
     ui->tableWidget_2->setRowCount(5);
@@ -57,21 +58,28 @@ void HamingTables::on_pushButton_clicked()
     ListaSimple listaA = pd.takeList1();
     ListaSimple listaB = pd.takeList2();
     palabraDeDatos(listaA);
-    ui->numeroDec->setText(QString::number(BinDEC(listaA)));
-    ui->numeroBDC->setText(QString::number(BinBCD(listaA)));
-//    p1(listaA);
-//    p2(listaA);
-//    p3(listaA);
-//    p4(listaA);
+    int numDEC = BinDEC(listaA);
+    ui->numeroDec->setText(QString::number(numDEC));
+    BinHex(numDEC);
+    BinBCD(numDEC);
 
+///////////////////////////////////////
+    Algorithm A;
+    A.init(listaA, listaB, 1);
+
+    p1(A.getListaP1());
+    p2(A.getListaP2());
+    p3(A.getListaP3());
+//    p4(listaA);
+///////////////////////////////////////
 
 }
+
 void HamingTables::palabraDeDatos(ListaSimple listaA)
 {
     int a = 0;
     for (int i = 0; i < 16; ++i) {
         if(i == 0 ||i == 1||i == 3 ||i == 7){
-
         }else
         {
             QTableWidgetItem *theItem = new QTableWidgetItem();
@@ -82,70 +90,67 @@ void HamingTables::palabraDeDatos(ListaSimple listaA)
         }
     }
 }
-//void HamingTables::p1(ListaSimple listaP1)
-//{
-//    for (int a = 0; a < 16; ++a) {
-//        cout << *listaP1.getData(a);
-//        cout << listaP1.getLength();
-//        QTableWidgetItem *theItem = new QTableWidgetItem();
-//        int myNumber = *listaP1.getData(a);
-//        theItem->setData(Qt::EditRole, myNumber);
-//        ui->tableWidget->setItem(0, a, theItem);
-//        a += 1;
-//    }
+void HamingTables::p1(ListaSimple listaP1)
+{
+    int b = 0;
+    for (int a = 0; a < 16; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP1.getData(b);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget->setItem(1, a, theItem);
+        a += 1;
+        b += 1;
+    }
 
-//}
-//void HamingTables::p2(ListaSimple listaP2)
-//{
-//    int i = 0;
-//    for (int a = 1; a < 16; ++a) {
-//        cout << *listaP2.getData(a);
-//        cout << listaP2.getLength();
-//        QTableWidgetItem *theItem = new QTableWidgetItem();
-//        int myNumber = *listaP2.getData(a);
-//        theItem->setData(Qt::EditRole, myNumber);
-//        ui->tableWidget->setItem(0, a, theItem);
-//        i++;
-//        if(i == 2){
-//            a +=i;
-//            i = 0;
-//        }
-//    }
-//}
-//void HamingTables::p3(ListaSimple listaP3)
-//{
-//    int i = 0;
-//    for (int a = 3; a < 16; ++a) {
-//        cout << *listaP3.getData(a);
-//        cout << listaP3.getLength();
-//        QTableWidgetItem *theItem = new QTableWidgetItem();
-//        int myNumber = *listaP3.getData(a);
-//        theItem->setData(Qt::EditRole, myNumber);
-//        ui->tableWidget->setItem(0, a, theItem);
-//        i++;
-//        if(i == 4){
-//            a +=i;
-//            i = 0;
-//        }
-//    }
-//}
-//void HamingTables::p4(ListaSimple listaP4)
-//{
-//    int i = 0;
-//    for (int a = 7; a < 16; ++a) {
-//        cout << *listaP4.getData(a);
-//        cout << listaP4.getLength();
-//        QTableWidgetItem *theItem = new QTableWidgetItem();
-//        int myNumber = *listaP4.getData(a);
-//        theItem->setData(Qt::EditRole, myNumber);
-//        ui->tableWidget->setItem(0, a, theItem);
-//        i++;
-//        if(i == 8){
-//            a +=i;
-//            i = 0;
-//        }
-//    }
-//}
+}
+void HamingTables::p2(ListaSimple listaP2)
+{
+    int i = 0, contList = 0;
+    for (int a = 1; a < 16; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP2.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget->setItem(2, a, theItem);
+        i++;
+        contList++;
+        if(i == 2){
+            a +=i;
+            i = 0;
+        }
+    }
+}
+void HamingTables::p3(ListaSimple listaP3)
+{
+    int i = 0, contList = 0;
+    for (int a = 3; a < 16; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP3.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget->setItem(3, a, theItem);
+        i++;
+        contList++;
+        if(i == 4){
+            a += i;
+            i = 0;
+        }
+    }
+}
+void HamingTables::p4(ListaSimple listaP4)
+{
+    int i = 0, contList = 0;
+    for (int a = 7; a < 16; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP4.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget->setItem(0, a, theItem);
+        i++;
+        contList++;
+        if(i == 8){
+            a +=i;
+            i = 0;
+        }
+    }
+}
 
 int HamingTables::BinDEC(ListaSimple listNumber)
 {
@@ -156,7 +161,66 @@ int HamingTables::BinDEC(ListaSimple listNumber)
     }
     return num;
 }
-int HamingTables::BinBCD(ListaSimple listNumber)
+QString BinBCDAux(char a){
+    QString res;
+    switch(a)
+    {
+        case '0': res = "0000";
+            break;
+        case '1': res = "0001";
+            break;
+        case '2': res = "0010";
+            break;
+        case '3': res = "0011";
+            break;
+        case '4': res = "0100";
+            break;
+        case '5': res = "0101";
+            break;
+        case '6': res = "0110";
+            break;
+        case '7': res = "0111";
+            break;
+        case '8': res = "1000";
+            break;
+        case '9': res = "1001";
+            break;
+        default: res = "Error";
+            break;
+    }
+    return res;
+}
+
+int HamingTables::BinBCD(int decimal)
 {
-    return 0;
+    string s = std::to_string(decimal);
+    ui->BCD1->setText(BinBCDAux(s[0]));
+    ui->BCD2->setText(BinBCDAux(s[1]));
+    ui->BCD3->setText(BinBCDAux(s[2]));
+}
+
+int HamingTables::BinHex(int n)
+{
+       char hexaDeciNum[20];
+       int i = 0;
+       while(n!=0)
+       {
+           int temp  = 0;
+           temp = n % 16;
+           if(temp < 10)
+           {
+               hexaDeciNum[i] = temp + 48;
+               i++;
+           }
+           else
+           {
+               hexaDeciNum[i] = temp + 55;
+               i++;
+           }
+           n = n/16;
+       }
+       ui->primeroH->setText(QChar(hexaDeciNum[2]));
+       ui->segundoH->setText(QChar(hexaDeciNum[1]));
+       ui->tercerH->setText(QChar(hexaDeciNum[0]));
+
 }
