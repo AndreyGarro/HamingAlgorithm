@@ -16,6 +16,7 @@ private:
     ListaSimple listaP2;
     ListaSimple listaP3;
     ListaSimple listaP4;
+    int posError = 0;
     int paridad;
 
     void crearListasParidad();
@@ -30,6 +31,13 @@ public:
     ListaSimple getListaP2();
     ListaSimple getListaP3();
     ListaSimple getListaP4();
+    ListaSimple getListaConError();
+    ListaSimple getListaP1E();
+    ListaSimple getListaP2E();
+    ListaSimple getListaP3E();
+    ListaSimple getListaP4E();
+    int getParidad();
+    int getPosError();
 };
 
 #endif // ALGORITHM_H

@@ -51,7 +51,7 @@ void Algorithm::crearListasParidad()
         }
     }
     else{
-        if(suma%2 == 0){
+        if(suma%2 == 0 && suma != 0){
             listaP1.addinPos(0, 0);
         }
         else{
@@ -133,6 +133,10 @@ void Algorithm::crearListasParidad()
     //Fin paridad 3
 
     //Crea la cuarta lista con el bit de paridad 4
+    listaP4.add(*ListaSinError.getData(4));
+    listaP4.add(*ListaSinError.getData(5));
+    listaP4.add(*ListaSinError.getData(6));
+    listaP4.add(*ListaSinError.getData(7));
     listaP4.add(*ListaSinError.getData(8));
     listaP4.add(*ListaSinError.getData(9));
     listaP4.add(*ListaSinError.getData(10));
@@ -162,6 +166,9 @@ void Algorithm::crearListasParidad()
         }
     }
 
+    for(int i = 0; i < listaP4.getLength(); i++){
+        cout<<*listaP4.getData(i)<<endl;
+    }
 }
 
 void Algorithm::buscarError()
@@ -235,12 +242,15 @@ void Algorithm::buscarError()
 
 
     ListaCompleta = ListaConError;
+
+    //Posición en la que se encuentra el error
     int sumaTotal = 0;
 
     for(int j = 0; j < errores.getLength(); j++){
         sumaTotal += *errores.getData(j);
     }
 
+    posError = sumaTotal;
     if(*ListaCompleta.getData(sumaTotal-1) == 0){
         ListaCompleta.addinPos(1, sumaTotal-1);
         ListaCompleta.deleteNode(sumaTotal);
@@ -248,17 +258,6 @@ void Algorithm::buscarError()
     else{
         ListaCompleta.addinPos(0, sumaTotal-1);
         ListaCompleta.deleteNode(sumaTotal);
-    }
-
-    cout<<"Lista Erronea: ";
-    for(int j = 0; j < ListaConError.getLength(); j++){
-        cout<<*ListaConError.getData(j);
-    }
-    cout<<endl;
-
-    cout<<"Lista Correcta: ";
-    for(int j = 0; j < ListaCompleta.getLength(); j++){
-        cout<<*ListaCompleta.getData(j);
     }
 }
 
@@ -278,4 +277,213 @@ ListaSimple Algorithm::getListaP3(){
 ListaSimple Algorithm::getListaP4()
 {
     return listaP4;
+}
+
+ListaSimple Algorithm::getListaConError()
+{
+    ListaConError.add(paridad);
+    return ListaConError;
+}
+
+ListaSimple Algorithm::getListaP1E()
+{
+    ListaSimple temp;
+    ListaConError.deleteNode(ListaConError.getLength()-1);
+
+    for(int i = 0; i < ListaConError.getLength(); i++){
+        temp.add(*ListaConError.getData(i));
+        i++;
+    }
+
+    int suma = 0;
+    if(*temp.getData(0) == 1){
+        for(int i = 1; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+    else{
+        for(int i = 0; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+
+    if(paridad == 1)
+    {
+        if(suma%2 == 0 & *temp.getData(0) == 1 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 0 & suma!=0 | suma == 0 & *temp.getData(0) == 1){
+            temp.add(1);
+        }
+        else{
+            temp.add(0);
+            posError += 1;
+        }
+
+    }else{
+        if(suma%2 == 0 & *temp.getData(0) == 0 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 1 & suma!=0 | suma == 0 & *temp.getData(0) == 0){
+            temp.add(0);
+        }
+        else{
+            temp.add(1);
+            posError += 1;
+        }
+    }
+    return temp;
+
+}
+
+ListaSimple Algorithm::getListaP2E()
+{
+    ListaSimple temp;
+    temp.add(*ListaConError.getData(1));
+    temp.add(*ListaConError.getData(2));
+    temp.add(*ListaConError.getData(5));
+    temp.add(*ListaConError.getData(6));
+    temp.add(*ListaConError.getData(9));
+    temp.add(*ListaConError.getData(10));
+    temp.add(*ListaConError.getData(11));
+    temp.add(*ListaConError.getData(12));
+
+    int suma = 0;
+    if(*temp.getData(0) == 1){
+        for(int i = 1; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+    else{
+        for(int i = 0; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+
+    if(paridad == 1)
+    {
+        if(suma%2 == 0 & *temp.getData(0) == 1 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 0 & suma!=0 | suma == 0 & *temp.getData(0) == 1){
+            temp.add(1);
+        }
+        else{
+            temp.add(0);
+            posError += 2;
+        }
+
+    }else{
+        if(suma%2 == 0 & *temp.getData(0) == 0 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 1 & suma!=0 | suma == 0 & *temp.getData(0) == 0){
+            temp.add(0);
+        }
+        else{
+            temp.add(1);
+            posError += 2;
+        }
+    }
+
+    return temp;
+}
+
+ListaSimple Algorithm::getListaP3E()
+{
+    ListaSimple temp;
+    temp.add(*ListaConError.getData(3));
+    temp.add(*ListaConError.getData(4));
+    temp.add(*ListaConError.getData(5));
+    temp.add(*ListaConError.getData(6));
+    temp.add(*ListaConError.getData(11));
+    temp.add(*ListaConError.getData(12));
+    temp.add(*ListaConError.getData(13));
+    temp.add(*ListaConError.getData(14));
+
+    int suma = 0;
+    if(*temp.getData(0) == 1){
+        for(int i = 1; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+    else{
+        for(int i = 0; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+    if(paridad == 1)
+    {
+        if(suma%2 == 0 & *temp.getData(0) == 1 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 0 & suma!=0 | suma == 0 & *temp.getData(0) == 1){
+            temp.add(1);
+        }
+        else{
+            temp.add(0);
+            posError += 4;
+        }
+
+    }else{
+        if(suma%2 == 0 & *temp.getData(0) == 0 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 1 & suma!=0 | suma == 0 & *temp.getData(0) == 0){
+            temp.add(0);
+        }
+        else{
+            temp.add(1);
+            posError += 4;
+        }
+    }
+    return temp;
+}
+
+ListaSimple Algorithm::getListaP4E()
+{
+    ListaSimple temp;
+    temp.add(*ListaConError.getData(7));
+    temp.add(*ListaConError.getData(8));
+    temp.add(*ListaConError.getData(9));
+    temp.add(*ListaConError.getData(10));
+    temp.add(*ListaConError.getData(11));
+    temp.add(*ListaConError.getData(12));
+    temp.add(*ListaConError.getData(13));
+    temp.add(*ListaConError.getData(14));
+    temp.add(*ListaConError.getData(15));
+
+    int suma = 0;
+    if(*temp.getData(0) == 1){
+        for(int i = 1; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+    else{
+        for(int i = 0; i < temp.getLength(); i++){
+            suma += *temp.getData(i);
+        }
+    }
+
+    if(paridad == 1)
+    {
+        if(suma%2 == 0 & *temp.getData(0) == 1 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 0 & suma!=0 | suma == 0 & *temp.getData(0) == 1){
+            temp.add(1);
+        }
+        else{
+            temp.add(0);
+            posError += 8;
+        }
+
+    }else{
+        if(suma%2 == 0 & *temp.getData(0) == 0 & suma!=0 |
+                suma%2 != 0 & *temp.getData(0) == 1 & suma!=0 | suma == 0 & *temp.getData(0) == 0){
+            temp.add(0);
+        }
+        else{
+            temp.add(1);
+            posError += 8;
+        }
+    }
+    cout<<"error: "<<posError-1<<endl;
+    return temp;
+}
+
+int Algorithm::getParidad()
+{
+    return paridad;
+}
+
+int Algorithm::getPosError()
+{
+    return (posError-1);
 }

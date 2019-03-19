@@ -1,4 +1,4 @@
-#include "hamingtables.h"
+﻿#include "hamingtables.h"
 #include "ui_hamingtables.h"
 #include "addnumber.h"
 #include "iostream"
@@ -65,12 +65,22 @@ void HamingTables::on_pushButton_clicked()
 
 ///////////////////////////////////////
     Algorithm A;
-    A.init(listaA, listaB, 1);
+    A.init(listaA, listaB, 0);
 
     p1(A.getListaP1());
     p2(A.getListaP2());
     p3(A.getListaP3());
-//    p4(A.getListaP4());
+    p4(A.getListaP4());
+
+    A.insertarError();
+    this->paridad = A.getParidad();
+
+    palabraDeDatos2(A.getListaConError());
+    p12(A.getListaP1E());
+    p22(A.getListaP2E());
+    p32(A.getListaP3E());
+    p42(A.getListaP4E());
+
 ///////////////////////////////////////
 
 }
@@ -142,7 +152,7 @@ void HamingTables::p4(ListaSimple listaP4)
         QTableWidgetItem *theItem = new QTableWidgetItem();
         int myNumber = *listaP4.getData(contList);
         theItem->setData(Qt::EditRole, myNumber);
-        ui->tableWidget->setItem(0, a, theItem);
+        ui->tableWidget->setItem(4, a, theItem);
         i++;
         contList++;
         if(i == 8){
@@ -150,6 +160,10 @@ void HamingTables::p4(ListaSimple listaP4)
             i = 0;
         }
     }
+    QTableWidgetItem *theItem = new QTableWidgetItem();
+    int myNumber = *listaP4.getData(8);
+    theItem->setData(Qt::EditRole, myNumber);
+    ui->tableWidget->setItem(4, 15, theItem);
 }
 
 int HamingTables::BinDEC(ListaSimple listNumber)
@@ -223,4 +237,130 @@ int HamingTables::BinHex(int n)
        ui->segundoH->setText(QChar(hexaDeciNum[1]));
        ui->tercerH->setText(QChar(hexaDeciNum[0]));
 
+}
+
+
+void HamingTables::palabraDeDatos2(ListaSimple listaA)
+{
+    int a = 0;
+    for (int i = 0; i < 17; ++i) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaA.getData(a);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget_2->setItem(0, i, theItem);
+        a++;
+    }
+}
+void HamingTables::p12(ListaSimple listaP1)
+{
+    int b = 0;
+    for (int a = 0; a < 16; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP1.getData(b);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget_2->setItem(1, a, theItem);
+        a += 1;
+        b += 1;
+    }
+    if(this->paridad == 1 ){
+        if(*listaP1.getData(listaP1.getLength()-1) == 1){
+           ui->tableWidget_2->setItem(1, 16,  new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Error"));
+        }
+    }else{
+        if(*listaP1.getData(listaP1.getLength()-1) == 0){
+           ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Error"));
+        }
+    }
+}
+void HamingTables::p22(ListaSimple listaP2)
+{
+    int i = 0, contList = 0;
+    for (int a = 1; a < 17; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP2.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget_2->setItem(2, a, theItem);
+        i++;
+        contList++;
+        if(i == 2){
+            a +=i;
+            i = 0;
+        }
+    }
+    if(this->paridad == 1 ){
+        if(*listaP2.getData(listaP2.getLength()-1) == 1){
+           ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Error"));
+        }
+    }else{
+        if(*listaP2.getData(listaP2.getLength()-1) == 0){
+           ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Error"));
+        }
+    }
+}
+void HamingTables::p32(ListaSimple listaP3)
+{
+    int i = 0, contList = 0;
+    for (int a = 3; a < 17; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP3.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget_2->setItem(3, a, theItem);
+        i++;
+        contList++;
+        if(i == 4){
+            a += i;
+            i = 0;
+        }
+    }
+    if(this->paridad == 1 ){
+        if(*listaP3.getData(listaP3.getLength()-1) == 1){
+           ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Error"));
+        }
+    }else{
+        if(*listaP3.getData(listaP3.getLength()-1) == 0){
+           ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Error"));
+        }
+    }
+}
+void HamingTables::p42(ListaSimple listaP4)
+{
+    cout << listaP4.getLength();
+    int i = 0, contList = 0;
+    for (int a = 7; a < 17; ++a) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber = *listaP4.getData(contList);
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget_2->setItem(4, a, theItem);
+        i++;
+        contList++;
+        if(i == 9){
+            a +=i;
+            i = 0;
+        }
+    }
+    if(this->paridad == 1 ){
+        if(*listaP4.getData(listaP4.getLength()-1) == 1){
+           ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Error"));
+        }
+    }else{
+        if(*listaP4.getData(listaP4.getLength()-1) == 0){
+           ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Correcto"));
+        }else{
+           ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Error"));
+        }
+    }
 }

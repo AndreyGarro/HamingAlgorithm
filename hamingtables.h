@@ -29,6 +29,12 @@ private:
     int BinDEC(ListaSimple);
     int BinBCD(int decimal);
     int BinHex(int);
+    void palabraDeDatos2(ListaSimple listaA);
+    void p12(ListaSimple);
+    void p22(ListaSimple);
+    void p32(ListaSimple);
+    void p42(ListaSimple);
+    int paridad;
 
 };
 
