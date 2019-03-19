@@ -5,7 +5,6 @@
 #include <string>
 #include <math.h>
 #include <cstdlib>
-
 #include "algorithm.h"
 
 using namespace std;
@@ -62,24 +61,28 @@ void HamingTables::on_pushButton_clicked()
     ui->numeroDec->setText(QString::number(numDEC));
     BinHex(numDEC);
     BinBCD(numDEC);
+    printBin(listaA);
 
 ///////////////////////////////////////
     Algorithm A;
-    A.init(listaA, listaB, 0);
+    int aux = pd.getParidad();
 
-    p1(A.getListaP1());
-    p2(A.getListaP2());
-    p3(A.getListaP3());
-    p4(A.getListaP4());
 
-    A.insertarError();
-    this->paridad = A.getParidad();
+        A.init(listaA, listaB, aux);
 
-    palabraDeDatos2(A.getListaConError());
-    p12(A.getListaP1E());
-    p22(A.getListaP2E());
-    p32(A.getListaP3E());
-    p42(A.getListaP4E());
+        p1(A.getListaP1());
+        p2(A.getListaP2());
+        p3(A.getListaP3());
+        p4(A.getListaP4());
+        palabraDeDatosPar(listaA,*A.getListaP1().getData(0),*A.getListaP2().getData(0),*A.getListaP3().getData(0),*A.getListaP4().getData(0));
+
+        A.insertarError();
+        this->paridad = A.getParidad();
+        palabraDeDatos2(A.getListaConError(), A.getPosError());
+        p12(A.getListaP1E());
+        p22(A.getListaP2E());
+        p32(A.getListaP3E());
+        p42(A.getListaP4E());
 
 ///////////////////////////////////////
 
@@ -208,14 +211,16 @@ QString BinBCDAux(char a){
 int HamingTables::BinBCD(int decimal)
 {
     string s = std::to_string(decimal);
-    ui->BCD1->setText(BinBCDAux(s[0]));
-    ui->BCD2->setText(BinBCDAux(s[1]));
-    ui->BCD3->setText(BinBCDAux(s[2]));
+    QString aux;
+    for (int i = 0; i < s.length(); ++i) {
+        aux.append(BinBCDAux(s[i]));
+    }
+    ui->BCD1->setText(aux);
 }
 
 int HamingTables::BinHex(int n)
 {
-       char hexaDeciNum[20];
+    char hexaDeciNum[3];
        int i = 0;
        while(n!=0)
        {
@@ -233,14 +238,26 @@ int HamingTables::BinHex(int n)
            }
            n = n/16;
        }
-       ui->primeroH->setText(QChar(hexaDeciNum[2]));
-       ui->segundoH->setText(QChar(hexaDeciNum[1]));
-       ui->tercerH->setText(QChar(hexaDeciNum[0]));
+       QString aux(hexaDeciNum);
+       QString str;
+       for (int i = 0; i < aux.length(); ++i) {
+            str.insert(aux.length()-i,aux[i]);
+       }
+       ui->primeroH->setText(str);
 
 }
 
+void HamingTables::printBin(ListaSimple listaA)
+{
+    QString str;
+    for (int i = 0; i < listaA.getLength(); ++i) {
+        str.append(QString::number(*listaA.getData(i)));
+    }
+    ui->numeroBin->setText(str);
+}
 
-void HamingTables::palabraDeDatos2(ListaSimple listaA)
+
+void HamingTables::palabraDeDatos2(ListaSimple listaA, const int b)
 {
     int a = 0;
     for (int i = 0; i < 17; ++i) {
@@ -248,8 +265,13 @@ void HamingTables::palabraDeDatos2(ListaSimple listaA)
         int myNumber = *listaA.getData(a);
         theItem->setData(Qt::EditRole, myNumber);
         ui->tableWidget_2->setItem(0, i, theItem);
+        if( i == b) {
+            ui->tableWidget_2->item(0,i)->setBackgroundColor(Qt::green);
+        }
         a++;
     }
+
+
 }
 void HamingTables::p12(ListaSimple listaP1)
 {
@@ -362,5 +384,32 @@ void HamingTables::p42(ListaSimple listaP4)
         }else{
            ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Error"));
         }
+    }
+}
+
+void HamingTables::palabraDeDatosPar(ListaSimple listaP, int P1, int P2, int P3, int P4)
+{
+    int contList = 0 ;
+    for (int i = 0; i < 16; ++i) {
+        QTableWidgetItem *theItem = new QTableWidgetItem();
+        int myNumber;
+        if(i == 0){
+            myNumber = P1;
+
+        }else if(i == 1){
+            myNumber = P2;
+
+        }else if(i == 3){
+            myNumber = P3;
+
+        }else if(i == 7){
+            myNumber = P4;
+
+        }else{
+            myNumber = *listaP.getData(contList);
+            contList++;
+        }
+        theItem->setData(Qt::EditRole, myNumber);
+        ui->tableWidget->setItem(5, i, theItem);
     }
 }

@@ -17,6 +17,7 @@ public:
     ~AddNumber();
     ListaSimple takeList1();
     ListaSimple takeList2();
+    int getParidad();
 
 private slots:
     void on_buttonBox_accepted();
