@@ -16,13 +16,15 @@ AddNumber::~AddNumber()
 
 void AddNumber::on_buttonBox_accepted()
 {
-    accept();
+
     if(paridad == 2){
         QMessageBox msgBox;
          msgBox.setText("Error"
                         "Debe seleccionar un tipo de paridad");
          msgBox.exec();
+         reject();
     }else{
+        accept();
         takeNumber();
     }
 
@@ -65,6 +67,11 @@ void AddNumber::takeNumber()
     lista2.add((int)ui->E9->value());
     lista2.add((int)ui->E10->value());
     lista2.add((int)ui->E11->value());
+}
+
+int AddNumber::getParidad()
+{
+    return paridad;
 }
 
 void AddNumber::on_par_clicked()
