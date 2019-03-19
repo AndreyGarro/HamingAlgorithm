@@ -70,7 +70,7 @@ void HamingTables::on_pushButton_clicked()
     p1(A.getListaP1());
     p2(A.getListaP2());
     p3(A.getListaP3());
-//    p4(listaA);
+//    p4(A.getListaP4());
 ///////////////////////////////////////
 
 }

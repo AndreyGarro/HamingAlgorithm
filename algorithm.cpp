@@ -133,13 +133,10 @@ void Algorithm::crearListasParidad()
     //Fin paridad 3
 
     //Crea la cuarta lista con el bit de paridad 4
-    listaP4.add(*ListaSinError.getData(4));
-    listaP4.add(*ListaSinError.getData(5));
-    listaP4.add(*ListaSinError.getData(6));
-    listaP4.add(*ListaSinError.getData(7));
     listaP4.add(*ListaSinError.getData(8));
     listaP4.add(*ListaSinError.getData(9));
     listaP4.add(*ListaSinError.getData(10));
+    listaP4.add(*ListaSinError.getData(11));
 
     suma = 0;
     for(int i = 0; i < listaP4.getLength(); i++){
@@ -180,7 +177,7 @@ void Algorithm::buscarError()
         cont += 2;
     }
 
-    if(*listaP1.getData(0) == 1 & suma%2 != 0 | *listaP3.getData(0) == 0 & suma%2 == 0){
+    if(*listaP1.getData(0) == 1 & suma%2 != 0 | *listaP1.getData(0) == 0 & suma%2 == 0){
         errores.add(1);
     }
 
@@ -194,7 +191,7 @@ void Algorithm::buscarError()
         cont += 4;
     }
 
-    if(*listaP2.getData(0) == 1 & suma%2 != 0 | *listaP3.getData(0) == 0 & suma%2 == 0){
+    if(*listaP2.getData(0) == 1 & suma%2 != 0 | *listaP2.getData(0) == 0 & suma%2 == 0){
         errores.add(2);
     }
 
@@ -219,35 +216,38 @@ void Algorithm::buscarError()
 
 
     //Revisa si el cuarto bit de paridad es correcto
-    cont = 8;
+    cont = 9;
     suma = 0;
     while(cont < ListaConError.getLength()){
         suma += *ListaConError.getData(cont);
         cont ++;
     }
 
-    if(*listaP3.getData(0) == 1 & suma%2 != 0 | *listaP3.getData(0) == 0 & suma%2 == 0){
+    if(*listaP4.getData(0) == 1 & suma%2 != 0 | *listaP4.getData(0) == 0 & suma%2 == 0){
         errores.add(8);
     }
 
+    cout<<"Lista Erronea: ";
+    for(int j = 0; j < ListaConError.getLength(); j++){
+        cout<<*ListaConError.getData(j);
+    }
+    cout<<endl;
+
+
+    ListaCompleta = ListaConError;
     int sumaTotal = 0;
 
     for(int j = 0; j < errores.getLength(); j++){
         sumaTotal += *errores.getData(j);
     }
 
-    int *numErroneo = ListaConError.getData(sumaTotal);
-    cout<<"num: "<<*numErroneo<<endl;
-
-    ListaCompleta = ListaConError;
-    sumaTotal --;
-    if(ListaCompleta.getData(sumaTotal) == 0){
+    if(*ListaCompleta.getData(sumaTotal-1) == 0){
+        ListaCompleta.addinPos(1, sumaTotal-1);
         ListaCompleta.deleteNode(sumaTotal);
-        ListaCompleta.addinPos(1, sumaTotal);
     }
     else{
+        ListaCompleta.addinPos(0, sumaTotal-1);
         ListaCompleta.deleteNode(sumaTotal);
-        ListaCompleta.addinPos(0, sumaTotal);
     }
 
     cout<<"Lista Erronea: ";
@@ -273,4 +273,9 @@ ListaSimple Algorithm::getListaP2(){
 
 ListaSimple Algorithm::getListaP3(){
     return listaP3;
+}
+
+ListaSimple Algorithm::getListaP4()
+{
+    return listaP4;
 }

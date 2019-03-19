@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
     lista.add(0);
     lista.add(1);
 
-    lista1.add(0);
+    lista1.add(1);
     lista1.add(0);
     lista1.add(1);
     lista1.add(1);

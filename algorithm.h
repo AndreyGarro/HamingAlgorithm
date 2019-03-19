@@ -29,6 +29,7 @@ public:
     ListaSimple getListaP1();
     ListaSimple getListaP2();
     ListaSimple getListaP3();
+    ListaSimple getListaP4();
 };
 
 #endif // ALGORITHM_H
