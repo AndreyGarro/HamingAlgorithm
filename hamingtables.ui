@@ -109,7 +109,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Numero en BDC</string>
+     <string>Numero en BCD</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">

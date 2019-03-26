@@ -94,6 +94,7 @@ void Algorithm::crearListasParidad()
             listaP2.addinPos(1,0);
         }
     }
+    cout<<"Tamaño: "<<listaP2.getLength()<<endl;
     //Fin paridad 2
 
 
@@ -101,10 +102,10 @@ void Algorithm::crearListasParidad()
     listaP3.add(*ListaSinError.getData(1));
     listaP3.add(*ListaSinError.getData(2));
     listaP3.add(*ListaSinError.getData(3));
+    listaP3.add(*ListaSinError.getData(7));
     listaP3.add(*ListaSinError.getData(8));
     listaP3.add(*ListaSinError.getData(9));
     listaP3.add(*ListaSinError.getData(10));
-    listaP3.add(*ListaSinError.getData(11));
 
     suma = 0;
     for(int i = 0; i < listaP3.getLength(); i++){
@@ -341,8 +342,8 @@ ListaSimple Algorithm::getListaP2E()
     temp.add(*ListaConError.getData(6));
     temp.add(*ListaConError.getData(9));
     temp.add(*ListaConError.getData(10));
-    temp.add(*ListaConError.getData(11));
-    temp.add(*ListaConError.getData(12));
+    temp.add(*ListaConError.getData(13));
+    temp.add(*ListaConError.getData(14));
 
     int suma = 0;
     if(*temp.getData(0) == 1){
