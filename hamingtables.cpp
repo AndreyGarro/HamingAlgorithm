@@ -77,14 +77,19 @@ void HamingTables::on_pushButton_clicked()
         palabraDeDatosPar(listaA,*A.getListaP1().getData(0),*A.getListaP2().getData(0),*A.getListaP3().getData(0),*A.getListaP4().getData(0));
 
         A.insertarError();
+
         this->paridad = A.getParidad();
-        palabraDeDatos2(A.getListaConError(), A.getPosError());
+        palabraDeDatos2(A.getListaConError());
         p12(A.getListaP1E());
         p22(A.getListaP2E());
         p32(A.getListaP3E());
         p42(A.getListaP4E());
+        cout<<"pos error: "<<A.getPosError()<<endl;
+        int posError = A.getPosError();
+        if(posError != -1){
+              ui->tableWidget_2->item(0, posError)->setBackgroundColor(Qt::red);
+        }
 
-///////////////////////////////////////
 
 }
 
@@ -257,7 +262,7 @@ void HamingTables::printBin(ListaSimple listaA)
 }
 
 
-void HamingTables::palabraDeDatos2(ListaSimple listaA, const int b)
+void HamingTables::palabraDeDatos2(ListaSimple listaA)
 {
     int a = 0;
     for (int i = 0; i < 17; ++i) {
@@ -265,13 +270,8 @@ void HamingTables::palabraDeDatos2(ListaSimple listaA, const int b)
         int myNumber = *listaA.getData(a);
         theItem->setData(Qt::EditRole, myNumber);
         ui->tableWidget_2->setItem(0, i, theItem);
-        if( i == b) {
-            ui->tableWidget_2->item(0,i)->setBackgroundColor(Qt::green);
-        }
         a++;
     }
-
-
 }
 void HamingTables::p12(ListaSimple listaP1)
 {
@@ -284,17 +284,28 @@ void HamingTables::p12(ListaSimple listaP1)
         a += 1;
         b += 1;
     }
+    QTableWidgetItem *theItem = new QTableWidgetItem();
+    int x = *listaP1.getData(0);
+    int y = !*listaP1.getData(0);
     if(this->paridad == 1 ){
         if(*listaP1.getData(listaP1.getLength()-1) == 1){
            ui->tableWidget_2->setItem(1, 16,  new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(1, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(1, 17, theItem);
         }
     }else{
         if(*listaP1.getData(listaP1.getLength()-1) == 0){
            ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(1, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(1, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(1, 17, theItem);
         }
     }
 }
@@ -313,17 +324,28 @@ void HamingTables::p22(ListaSimple listaP2)
             i = 0;
         }
     }
+    QTableWidgetItem *theItem = new QTableWidgetItem();
+    int x = *listaP2.getData(0);
+    int y = !*listaP2.getData(0);
     if(this->paridad == 1 ){
         if(*listaP2.getData(listaP2.getLength()-1) == 1){
            ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(2, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(2, 17, theItem);
         }
     }else{
         if(*listaP2.getData(listaP2.getLength()-1) == 0){
            ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(2, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(2, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(2, 17, theItem);
         }
     }
 }
@@ -342,17 +364,28 @@ void HamingTables::p32(ListaSimple listaP3)
             i = 0;
         }
     }
+    QTableWidgetItem *theItem = new QTableWidgetItem();
+    int x = *listaP3.getData(0);
+    int y = !*listaP3.getData(0);
     if(this->paridad == 1 ){
         if(*listaP3.getData(listaP3.getLength()-1) == 1){
            ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(3, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(3, 17, theItem);
         }
     }else{
         if(*listaP3.getData(listaP3.getLength()-1) == 0){
            ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(3, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(3, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(3, 17, theItem);
         }
     }
 }
@@ -372,17 +405,28 @@ void HamingTables::p42(ListaSimple listaP4)
             i = 0;
         }
     }
+    QTableWidgetItem *theItem = new QTableWidgetItem();
+    int x = *listaP4.getData(0);
+    int y = !*listaP4.getData(0);
     if(this->paridad == 1 ){
         if(*listaP4.getData(listaP4.getLength()-1) == 1){
            ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(4, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(4, 17, theItem);
         }
     }else{
         if(*listaP4.getData(listaP4.getLength()-1) == 0){
            ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Correcto"));
+           theItem->setData(Qt::EditRole, x);
+           ui->tableWidget_2->setItem(4, 17, theItem);
         }else{
            ui->tableWidget_2->setItem(4, 16, new QTableWidgetItem("Error"));
+           theItem->setData(Qt::EditRole, y);
+           ui->tableWidget_2->setItem(4, 17, theItem);
         }
     }
 }
